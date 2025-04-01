@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="wrap">
+    <h2 style="color: #b8860b; margin-bottom: 20px;">Student Details</h2>
+    <form action="" method="post" style="text-align: left;">
+        {% csrf_token %}
+        <div class="fields">
+            <label for="{{ form.student_name.id_for_label }}" style="display: block; margin-bottom: 5px;">Student Name</label>
+            {{ form.student_name }}
+        </div>
+        <div class="fields">
+            <label for="{{ form.father_name.id_for_label }}" style="display: block; margin-bottom: 5px;">Father's Name</label>
+            {{ form.father_name }}
+        </div>
+        <div class="fields">
+            <label for="{{ form.enrollment_no.id_for_label }}" style="display: block; margin-bottom: 5px;">Enrollment Number</label>
+            {{ form.enrollment_no }}
+        </div>
+        <div class="fields">
+            <label for="{{ form.course.id_for_label }}" style="display: block; margin-bottom: 5px;">Course</label>
+            {{ form.course }}
+        </div>
+        <div class="fields">
+            <label for="{{ form.dob.id_for_label }}" style="display: block; margin-bottom: 5px;">Date of Birth (yyyy-mm-dd)</label>
+            {{ form.dob }}
+        </div>
+        <div class="fields">
+            <label for="{{ form.gender.id_for_label }}" style="display: block; margin-bottom: 5px;">Gender</label>
+            {{ form.gender }}
+        </div>
+        <input class="button-custom" type="submit" value="DONE" style="margin-top: 20px;">
+    </form>
+</div>
+{% endblock content %}
+
+{% block more_links %}
+<a href="{% url 'edit' %}" style="margin-right: 15px;">
+    Update Details
+</a>
+<a href="{% url 'select' %}" style="margin-right: 15px;">
+    Select a Room
+</a>
+<a href="{% url 'logout' %}">
+    Logout
+</a>
+{% endblock more_links %}

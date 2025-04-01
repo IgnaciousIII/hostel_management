@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>File a Complaint</h2>
+<form method="post" style="max-width: 600px; margin: 20px auto; padding: 20px; border: 1px solid #e8dcc2; border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+    {% csrf_token %}
+    <div style="margin-bottom: 15px;">
+        {{ form.as_p }}
+    </div>
+    <button type="submit" style="background-color: #b8860b; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 1em;">Submit Complaint</button>
+</form>
+{%endblock content%}

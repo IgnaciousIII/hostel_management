@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="wrapper" style="max-width: 800px; margin: 20px auto; padding: 20px; border: 1px solid #e8dcc2; border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+    <h2 style="color: #b8860b; margin-bottom: 20px;">Room Details</h2>
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr style="background-color: #b8860b; color: white;">
+                <th style="padding: 10px; text-align: left; font-weight: bold;">Room Number</th>
+                <th style="padding: 10px; text-align: left; font-weight: bold;">Room Id</th>
+                <th style="padding: 10px; text-align: left; font-weight: bold;">Type</th>
+                <th style="padding: 10px; text-align: left; font-weight: bold;">Allotted To</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for room in rooms %}
+                <tr style="border-bottom: 1px solid #e8dcc2;">
+                    <td style="padding: 10px; text-align: left;">{{ room.no }}</td>
+                    <td style="padding: 10px; text-align: left;">{{ room.name }}</td>
+                    <td style="padding: 10px; text-align: left;">{{ room.room_type }}</td>
+                    <td style="padding: 10px; text-align: left;">
+                        {% if room.vacant %}
+                            -
+                        {% else %}
+                            <div class="box">
+                                <a class="button" href="#popup{{ room.id }}">{{ room.student }}</a>
+                            </div>
+                            <div id="popup{{ room.id }}" class="overlay">
+                                <div class="popup" style="max-width: 500px; padding: 20px; background: white; border-radius: 5px;">
+                                    <h2 style="color: #b8860b;">Student Details</h2>
+                                    <a class="close" href="#" style="position: absolute; top: 10px; right: 10px; text-decoration: none; color: #333; font-size: 20px;">&times;</a>
+                                    <div class="content">
+                                        <table style="width: 100%;">
+                                            <tr style="border-bottom: 1px solid #e8dcc2;">
+                                                <td style="padding: 8px; font-weight: bold; width: 40%;">Student Name</td>
+                                                <td style="padding: 8px; width: 60%;">{{ room.student.student_name }}</td>
+                                            </tr>
+                                            <tr style="border-bottom: 1px solid #e8dcc2;">
+                                                <td style="padding: 8px; font-weight: bold;">Father's Name</td>
+                                                <td style="padding: 8px;">{{ room.student.father_name }}</td>
+                                            </tr>
+                                            <tr style="border-bottom: 1px solid #e8dcc2;">
+                                                <td style="padding: 8px; font-weight: bold;">Enrollment Number</td>
+                                                <td style="padding: 8px;">{{ room.student.course }}</td>
+                                            </tr>
+                                            <tr style="border-bottom: 1px solid #e8dcc2;">
+                                                <td style="padding: 8px; font-weight: bold;">Date of birth (yyyy-mm-dd)</td>
+                                                <td style="padding: 8px;">{{ room.student.dob }}</td>
+                                            </tr>
+                                            <tr style="border-bottom: 1px solid #e8dcc2;">
+                                                <td style="padding: 8px; font-weight: bold;">Gender</td>
+                                                <td style="padding: 8px;">{{ room.student.gender }}</td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="warden-actions" style="margin-top: 20px; display: flex; flex-wrap: wrap; justify-content: space-around;">
+        <a href="{% url 'view_complaints' %}" class="button-custom" style="margin-bottom: 10px;">View Complaints</a>
+        <a href="{% url 'mark_attendance' %}" class="button-custom" style="margin-bottom: 10px;">Mark Attendance</a>
+        <a href="{% url 'log_visitor' %}" class="button-custom" style="margin-bottom: 10px;">Log Visitor</a>
+        <a href="{% url 'logout' %}" class="button-custom" style="margin-bottom: 10px;">Logout</a>
+    </div>
+</div>
+{% endblock content %}
+
+{% block more_links %}
+<a href="{% url 'warden_dues' %}" style="margin-right: 10px;">Dues</a>
+<a href="{% url 'warden_add_due' %}" style="margin-right: 10px;">Add Due</a>
+<a href="{% url 'warden_remove_due' %}" style="margin-right: 10px;">Remove Due</a>
+<a href="{% url 'logout' %}">Logout</a>
+{% endblock more_links %}

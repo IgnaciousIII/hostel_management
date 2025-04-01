@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="wrapper" style="max-width: 600px; margin: 20px auto; padding: 20px; border: 1px solid #e8dcc2; border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+    <h2 style="color: #b8860b; margin-bottom: 20px;">Student Details</h2>
+    <div class="table" style="width: 100%;">
+        <div class="row" style="border-bottom: 1px solid #e8dcc2;">
+            <div class="cell" style="font-weight: bold; padding: 8px;">Name</div>
+            <div class="cell" style="padding: 8px;">{{ student.student_name }}</div>
+        </div>
+        <div class="row" style="border-bottom: 1px solid #e8dcc2;">
+            <div class="cell" style="font-weight: bold; padding: 8px;">Father's Name</div>
+            <div class="cell" style="padding: 8px;">{{ student.father_name }}</div>
+        </div>
+        <div class="row" style="border-bottom: 1px solid #e8dcc2;">
+            <div class="cell" style="font-weight: bold; padding: 8px;">Enrollment Number</div>
+            <div class="cell" style="padding: 8px;">{{ student.course }}</div>
+        </div>
+        <div class="row" style="border-bottom: 1px solid #e8dcc2;">
+            <div class="cell" style="font-weight: bold; padding: 8px;">Date of birth (yyyy-mm-dd)</div>
+            <div class="cell" style="padding: 8px;">{{ student.dob }}</div>
+        </div>
+        <div class="row" style="border-bottom: 1px solid #e8dcc2;">
+            <div class="cell" style="font-weight: bold; padding: 8px;">Gender</div>
+            <div class="cell" style="padding: 8px;">{{ student.gender }}</div>
+        </div>
+        <div class="row" style="border-bottom: 1px solid #e8dcc2;">
+            <div class="cell" style="font-weight: bold; padding: 8px;">Room</div>
+            <div class="cell" style="padding: 8px;">
+                {% if student.room_allotted %}
+                    {{ student.room }} in {{ student.room.hostel }}
+                {% else %}
+                    Not Allotted
+                {% endif %}
+            </div>
+        </div>
+        <div class="row" style="border-bottom: 1px solid #e8dcc2;">
+            <div class="cell" style="font-weight: bold; padding: 8px;">Dues</div>
+            <div class="cell" style="padding: 8px;">
+                {% if student.no_dues %}
+                    <div style="color: green;">No Dues</div>
+                {% else %}
+                    <div style="color: red;">Unpaid Dues</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-top: 20px; display: flex; justify-content: space-around;">
+        <a class="button-custom" href="{% url 'select' %}">Select a Room</a>
+        <a class="button-custom" href="{% url 'file_complaint' %}">File a Complaint</a>
+        <a class="button-custom" href="{% url 'view_attendance' %}">View Attendance</a>
+    </div>
+</div>
+{% endblock content %}
+
+{% block more_links %}
+<a href="{% url 'edit' %}" style="margin-right: 10px;">Update Details</a>
+<a href="{% url 'select' %}" style="margin-right: 10px;">Select a Room</a>
+<a href="{% url 'file_complaint' %}" style="margin-right: 10px;">File a Complaint</a>
+<a href="{% url 'view_attendance' %}" style="margin-right: 10px;">View Attendance</a>
+<a href="{% url 'logout' %}">Logout</a>
+{% endblock more_links %}

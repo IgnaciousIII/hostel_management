@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="wrap" style="max-width: 400px; padding: 20px; border: 1px solid #e8dcc2; border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+    <h2 style="color: #b8860b; margin-bottom: 20px;">Remove Due</h2>
+    <form action="" method="post" style="text-align: left;">
+        {% csrf_token %}
+        <div class="fields" style="margin-bottom: 15px;">
+            {{ form.as_p }}
+        </div>
+        <input class="button-custom" type="submit" value="REMOVE DUE" style="margin-top: 20px;">
+    </form>
+</div>
+{% endblock content %}
+
+{% block more_links %}
+<a href="{% url 'warden_dues' %}" style="margin-right: 15px;">
+    Dues
+</a>
+<a href="{% url 'warden_add_due' %}" style="margin-right: 15px;">
+    Add Due
+</a>
+<a href="{% url 'logout' %}">
+    Logout
+</a>
+{% endblock more_links %}

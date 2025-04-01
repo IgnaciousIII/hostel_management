@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="wrapper">
+    <h2 style="color: #b8860b; margin-bottom: 20px;">Room Details</h2>
+    <div class="table" style="border: 1px solid #e8dcc2; border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+        <div class="row header" style="background-color: #b8860b; color: white;">
+            <div class="cell" style="font-weight: bold;">Room Number</div>
+            <div class="cell" style="font-weight: bold;">Room Id</div>
+            <div class="cell" style="font-weight: bold;">Type</div>
+            <div class="cell" style="font-weight: bold;">Status</div>
+        </div>
+        {% for room in rooms %}
+            <div class="row">
+                <div class="cell" data-title="Number">{{ room.no }}</div>
+                <div class="cell" data-title="Name">{{ room.name }}</div>
+                <div class="cell" data-title="Type">{{ room.room_type }}</div>
+                <div class="cell" data-title="Status" style="color: {% if room.vacant %}green{% endif %};">
+                    {{ room.vacant|yesno:"vacant,occupied" }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

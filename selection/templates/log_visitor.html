@@ -1,0 +1,18 @@
+<form method="post" style="max-width: 600px; margin: 20px auto; padding: 20px; border: 1px solid #e8dcc2; border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+    {% csrf_token %}
+
+    <div style="margin-bottom: 15px;">
+        <label for="student" style="display: block; margin-bottom: 5px; font-weight: bold;">Select Student:</label>
+        <select name="student" id="student" required style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
+            {% for student in students %}
+                <option value="{{ student.id }}">{{ student.student_name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+
+    <div style="margin-bottom: 15px;">
+        {{ form.as_p }}
+    </div>
+
+    <button type="submit" style="background-color: #b8860b; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer; font-size: 1em;">Submit</button>
+</form>

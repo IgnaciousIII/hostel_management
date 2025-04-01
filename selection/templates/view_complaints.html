@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="wrapper" style="max-width: 800px; margin: 20px auto; padding: 20px; border: 1px solid #e8dcc2; border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+    <h2 style="color: #b8860b; margin-bottom: 20px;">View Complaints</h2>
+
+    <table style="width: 100%; border-collapse: collapse;">
+        <thead>
+            <tr style="background-color: #b8860b; color: white;">
+                <th style="padding: 10px; text-align: left;">ID</th>
+                <th style="padding: 10px; text-align: left;">Student Name</th>
+                <th style="padding: 10px; text-align: left;">Description</th>
+                <th style="padding: 10px; text-align: left;">Status</th>
+                <th style="padding: 10px; text-align: left;">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for complaint in complaints %}
+                <tr id="complaint-{{ complaint.id }}" style="border-bottom: 1px solid #e8dcc2;">
+                    <td style="padding: 10px;">{{ complaint.id }}</td>
+                    <td style="padding: 10px;">{{ complaint.student.student_name }}</td>
+                    <td style="padding: 10px;">{{ complaint.complaint_text }}</td>
+                    <td style="padding: 10px;">
+                        <select class="status-dropdown" data-complaint-id="{{ complaint.id }}" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box;">
+                            <option value="Pending" {% if complaint.status == "Pending" %} selected {% endif %}>Pending</option>
+                            <option value="In Progress" {% if complaint.status == "In Progress" %} selected {% endif %}>In Progress</option>
+                            <option value="Resolved" {% if complaint.status == "Resolved" %} selected {% endif %}>Resolved</option>
+                        </select>
+                    </td>
+                    <td style="padding: 10px;">
+                        <button class="update-status" data-complaint-id="{{ complaint.id }}" style="background-color: #b8860b; color: white; padding: 8px 15px; border: none; border-radius: 4px; cursor: pointer;">Update</button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script>
+document.querySelectorAll(".update-status").forEach(button => {
+    button.addEventListener("click", function() {
+        let complaintId = this.getAttribute("data-complaint-id");
+        let status = document.querySelector(`.status-dropdown[data-complaint-id="${complaintId}"]`).value;
+
+        fetch("{% url 'view_complaints' %}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "X-CSRFToken": "{{ csrf_token }}"
+            },
+            body: `complaint_id=${complaintId}&status=${status}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert(data.message);
+                if (data.deleted) {
+                    document.getElementById(`complaint-${complaintId}`).remove(); // Remove row if deleted
+                }
+            } else {
+                alert("Error updating status.");
+            }
+        });
+    });
+});
+</script>
+
+{% endblock %}

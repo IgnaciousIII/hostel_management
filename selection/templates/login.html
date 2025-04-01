@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="wrap" style="max-width: 400px; padding: 20px; border: 1px solid #e8dcc2; border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);">
+    <h2 style="color: #b8860b; margin-bottom: 20px;">Login</h2>
+    <form action="" method="post" style="text-align: left;">
+        {% csrf_token %}
+        <div class="fields" style="margin-bottom: 15px;">
+            <label for="{{ form.username.id_for_label }}" style="display: block; margin-bottom: 5px; font-weight: bold; color: #4a4a4a;">Username</label>
+            {{ form.username }}
+        </div>
+        <div class="fields" style="margin-bottom: 15px;">
+            <label for="{{ form.password.id_for_label }}" style="display: block; margin-bottom: 5px; font-weight: bold; color: #4a4a4a;">Password</label>
+            {{ form.password }}
+        </div>
+        <input class="button-custom" type="submit" value="LOGIN" style="margin-top: 20px;">
+    </form>
+</div>
+{% endblock content %}
+
+{% block more_links %}
+<a href="{% url 'login' %}" style="margin-right: 15px;">Login</a>
+<a href="{% url 'reg_form' %}">Register</a>
+{% endblock more_links %}

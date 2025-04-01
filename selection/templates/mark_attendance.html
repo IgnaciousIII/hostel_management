@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h2>Mark Attendance</h2>
+
+<form id="attendance-form" method="POST" action="{% url 'mark_attendance' %}">
+    {% csrf_token %}
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Student Name</th>
+            <th>Enrollment Number</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+        {% for student in students %}
+        <tr id="student-{{ student.id }}">
+            <td>{{ student.id }}</td>
+            <td>{{ student.student_name }}</td>
+            <td>{{ student.enrollment_no }}</td>
+            <td>
+                <select name="attendance_{{ student.id }}" class="attendance-dropdown" data-student-id="{{ student.id }}">
+                    <option value="Present">Present</option>
+                    <option value="Absent">Absent</option>
+                </select>
+            </td>
+            <td>
+                <button type="button" class="mark-attendance" data-student-id="{{ student.id }}">Mark</button>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <!-- Bulk Submit Button -->
+    <button type="submit">Submit Attendance</button>
+</form>
+
+<script>
+document.querySelectorAll(".mark-attendance").forEach(button => {
+    button.addEventListener("click", function() {
+        let studentId = this.getAttribute("data-student-id");
+        let status = document.querySelector(`.attendance-dropdown[data-student-id="${studentId}"]`).value;
+
+        fetch("{% url 'mark_attendance' %}", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+                "X-CSRFToken": "{{ csrf_token }}"
+            },
+            body: `student_id=${studentId}&status=${status}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Attendance marked successfully!");
+            } else {
+                alert("Error marking attendance.");
+            }
+        });
+    });
+});
+</script>
+
+{% endblock %}
